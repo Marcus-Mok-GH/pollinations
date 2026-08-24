@@ -1,4 +1,5 @@
 import debug from "debug";
+import type { ImageGenerationResult } from "../createAndReturnImages.ts";
 import { getImageEnv } from "../env.ts";
 import { HttpError } from "../httpError.ts";
 import type { ImageParams } from "../params.ts";
@@ -10,22 +11,6 @@ const logError = debug("pollinations:nova-canvas:error");
 interface NovaCanvasResponse {
     images?: string[]; // base64-encoded images
     error?: string;
-}
-
-/**
- * Result type matching other image model handlers
- */
-interface ImageGenerationResult {
-    buffer: Buffer;
-    isMature: boolean;
-    isChild: boolean;
-    trackingData: {
-        actualModel: string;
-        usage: {
-            completionImageTokens: number;
-            totalTokenCount: number;
-        };
-    };
 }
 
 /**

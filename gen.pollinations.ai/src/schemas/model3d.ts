@@ -4,6 +4,7 @@ import {
 } from "@shared/registry/model3d.ts";
 import { SafeSchema } from "@shared/schemas/safety.ts";
 import { z } from "zod";
+import { parseImageList } from "../utils/parseImageList.ts";
 
 const VALID_3D_MODELS = [
     ...Object.keys(MODEL3D_SERVICES),
@@ -27,7 +28,7 @@ export const Generate3dRequestQueryParamsSchema = z.object({
         .string()
         .transform((value: string) => {
             if (!value) return undefined;
-            return value.includes("|") ? value.split("|") : value.split(",");
+            return parseImageList(value);
         })
         .optional()
         .refine(

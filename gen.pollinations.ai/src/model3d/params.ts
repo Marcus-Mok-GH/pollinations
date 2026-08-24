@@ -1,5 +1,6 @@
 import { MODEL3D_SERVICES } from "@shared/registry/model3d.ts";
 import { z } from "zod";
+import { parseImageList } from "../utils/parseImageList.ts";
 
 const VALID_3D_MODELS = [
     ...Object.keys(MODEL3D_SERVICES),
@@ -13,7 +14,7 @@ export const Model3dParamsSchema = z.object({
         .transform((value?: string[] | string | null) => {
             if (!value) return [];
             if (Array.isArray(value)) return value;
-            return value.includes("|") ? value.split("|") : value.split(",");
+            return parseImageList(value);
         })
         .catch([]),
     // Not passed to either provider unless it natively supports seeds (see

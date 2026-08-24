@@ -1,5 +1,6 @@
 import { IMAGE_SERVICES, type ImageModelName } from "@shared/registry/image.ts";
 import { z } from "zod";
+import { parseImageList } from "../utils/parseImageList.ts";
 import { getDefaultSideLength } from "./models.js";
 
 const allowedModels = Object.keys(IMAGE_SERVICES) as [
@@ -65,9 +66,7 @@ export const ImageParamsSchema = z
                 // Already an array (from POST JSON body)
                 if (Array.isArray(value)) return value;
                 // String: support both pipe (|) and comma (,) separators
-                return value.includes("|")
-                    ? value.split("|")
-                    : value.split(",");
+                return parseImageList(value);
             })
             .catch([]),
         transparent: sanitizedBoolean.catch(false),

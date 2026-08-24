@@ -1,6 +1,7 @@
 import { DEFAULT_IMAGE_MODEL, IMAGE_SERVICES } from "@shared/registry/image.ts";
 import { SafeSchema } from "@shared/schemas/safety.ts";
 import { z } from "zod";
+import { parseImageList } from "../utils/parseImageList.ts";
 
 const QUALITIES = ["low", "medium", "high", "hd"] as const;
 // Maximum seed value - use INT32_MAX for compatibility with strict providers like Vertex AI
@@ -70,7 +71,7 @@ const GenerateImageRequestQueryParamsBaseSchema = z.object({
             if (!value) return undefined;
             // Support both pipe (|) and comma (,) separators
             // Prefer pipe separator if present, otherwise use comma
-            return value.includes("|") ? value.split("|") : value.split(",");
+            return parseImageList(value);
         })
         .optional()
         .refine(
