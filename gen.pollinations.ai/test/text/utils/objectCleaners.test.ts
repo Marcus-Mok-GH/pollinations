@@ -1,10 +1,10 @@
+import { removeUnset } from "@shared/util.ts";
 import { describe, expect, it } from "vitest";
-import { cleanNullAndUndefined } from "../../../src/text/utils/objectCleaners.js";
 
-describe("cleanNullAndUndefined", () => {
+describe("removeUnset", () => {
     it("strips only top-level null and undefined values", () => {
         expect(
-            cleanNullAndUndefined({
+            removeUnset({
                 audio: null,
                 modalities: null,
                 response_format: null,

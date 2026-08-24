@@ -1,5 +1,6 @@
 import debug from "debug";
 import type { TransformFn } from "../types.js";
+import { normalizeEffort } from "../utils/normalizeEffort.ts";
 
 const log = debug("pollinations:transforms:gemini-thinking");
 
@@ -17,10 +18,6 @@ const EFFORT_TO_BUDGET: Record<string, number> = {
     high: 8192,
     xhigh: 8192,
 };
-
-function normalizeEffort(value: unknown): string | undefined {
-    return typeof value === "string" ? value.toLowerCase() : undefined;
-}
 
 /**
  * Creates a transform that configures Gemini thinking mode.

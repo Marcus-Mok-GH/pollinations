@@ -1,4 +1,5 @@
 import { remapUpstreamStatus } from "@shared/error.ts";
+import { removeUnset } from "@shared/util.ts";
 import debug from "debug";
 import {
     normalizeOptions,
@@ -12,7 +13,6 @@ import type {
     ServiceError,
     TransformOptions,
 } from "./types.js";
-import { cleanNullAndUndefined } from "./utils/objectCleaners.js";
 
 const log = debug("pollinations:genericopenai");
 const errorLog = debug("pollinations:error");
@@ -149,7 +149,7 @@ export async function genericOpenAIClient(
             userApiKey: _userApiKey,
             ...cleanedOptions
         } = normalizedOptions;
-        const requestBody = cleanNullAndUndefined({
+        const requestBody = removeUnset({
             model: modelName,
             messages: validatedMessages,
             ...cleanedOptions,

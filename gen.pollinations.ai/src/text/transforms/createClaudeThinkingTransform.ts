@@ -1,5 +1,6 @@
 import debug from "debug";
 import type { TransformFn, TransformOptions } from "../types.js";
+import { normalizeEffort } from "../utils/normalizeEffort.ts";
 
 const log = debug("pollinations:transforms:claude-thinking");
 
@@ -38,10 +39,6 @@ const EFFORT_TO_OUTPUT_EFFORT: Record<string, string> = {
     high: "high",
     xhigh: "high",
 };
-
-function normalizeEffort(value: unknown): string | undefined {
-    return typeof value === "string" ? value.toLowerCase() : undefined;
-}
 
 /**
  * Creates a transform that maps the standard `reasoning_effort` onto Claude's
