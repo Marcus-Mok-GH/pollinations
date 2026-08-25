@@ -505,6 +505,7 @@ try {
     console.error(err.message);  // Error message
     console.error(err.code);     // Error code (BAD_REQUEST, UNAUTHORIZED, INSUFFICIENT_BALANCE, etc.)
     console.error(err.status);   // HTTP status (400, 401, 402, 403, 500)
+    console.error(err.requestId); // Server request ID for support reports
   }
 }
 ```

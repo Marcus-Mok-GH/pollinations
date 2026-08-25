@@ -71,7 +71,9 @@ export async function pollinationsErrorFromResponse(
             ? (nested.details as Record<string, unknown>)
             : undefined;
     const requestId =
-        typeof nested.requestId === "string" ? nested.requestId : undefined;
+        typeof nested.requestId === "string"
+            ? nested.requestId
+            : response.headers.get("X-Request-Id") ?? undefined;
     const retryAfter =
         response.status === 429
             ? (parseRetryAfter(response) ?? DEFAULT_RETRY_AFTER)
