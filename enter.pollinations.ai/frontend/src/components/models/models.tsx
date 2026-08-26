@@ -34,8 +34,11 @@ import {
     fetchModelCatalog,
     getModelPricesFromCatalog,
 } from "./model-catalog.ts";
-import { getModelDisplayName } from "./model-info.ts";
-import type { ModelScope, ModelSort } from "./model-search.ts";
+import {
+    type ModelScope,
+    type ModelSort,
+    matchesQuery,
+} from "./model-search.ts";
 import { sortModels } from "./model-sort.ts";
 import {
     type SectionType,
@@ -115,13 +118,6 @@ const SEARCH_LABELS: Record<SectionType, string> = {
     embedding: "embedding",
     agent: "agent",
 };
-
-function matchesQuery(model: ModelPrice, query: string): boolean {
-    if (!query) return true;
-    const displayName = getModelDisplayName(model) ?? "";
-    const haystack = `${displayName} ${model.brand ?? ""}`.toLowerCase();
-    return haystack.includes(query);
-}
 
 function categorizeModels(
     models: ModelPrice[],
@@ -420,8 +416,16 @@ export const Models: FC = () => {
                                 }}
                                 placeholder={`Search ${searchTarget}…`}
                                 aria-label={`Search ${searchTarget}`}
+                                aria-describedby="models-search-filters"
                                 className="w-full pl-9"
                             />
+                            <p
+                                id="models-search-filters"
+                                className="mt-1 text-xs text-theme-text-muted"
+                            >
+                                Filters: access:free, access:paid, access:quest,
+                                owner:, id:, type:, capability:
+                            </p>
                         </div>
                         <Dropdown
                             align="end"
